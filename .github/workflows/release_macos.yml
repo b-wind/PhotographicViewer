@@ -5,7 +5,7 @@
       runs-on: macos-latest
       env:
         APP_NAME: PhotographicViewer
-        MACOS_APP_RELEASE_PATH: build/macos/Build/Products/Release
+        MACOS_APP_RELEASE_PATH: ./build/macos/Build/Products/Release
       steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
@@ -16,26 +16,30 @@
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - run: flutter build macos
       - name: zip
-        run: zip -r PhotographicViewer.mac.zip PhotographicViewer.app
-        working-directory: ./build/macos/Build/Products/Release
-      - name: install create_dmg
-      - run: |
+        run: zip -r ${{ env.APP_NAME }}.mac.zip ${{ env.APP_NAME }}.app
+        working-directory: ${{ env.MACOS_APP_RELEASE_PATH }}
+      - name: Install create-dmg
+        run: |
           brew update
-          brew install create_dmg
-      - name create_dmg
-      - run: create-dmg \
-  --volname PhotographicViewer \
-  --window-pos 200 120 \
-  --window-size 800 529 \
-  --icon-size 130 \
-  --text-size 14 \
-  --icon PhotographicViewer 260 250 \
-  --hide-extension PhotograpicViewer \
-  --app-drop-link 540 250 \
-  --hdiutil-quiet \
-  PhotographicViewer.dmg \
-  PhotographicViewer.app
-        working-directory: ./build/macos/Build/Products/Release
+          brew install create-dmg
+      - name: Create DMG Installer
+        run: |
+          create-dmg \
+            --volname ${APP_NAME} \
+            --window-pos 200 120 \
+            --window-size 800 529 \
+            --icon-size 130 \
+            --text-size 14 \
+            --icon ${APP_NAME} 260 250 \
+            --hide-extension ${APP_NAME} \
+            --app-drop-link 540 250 \
+            --hdiutil-quiet \
+            ${APP_NAME}.dmg \
+            ${APP_NAME}.app
+        working-directory: ${{ env.MACOS_APP_RELEASE_PATH }}
       - uses: softprops/action-gh-release@v1
         with:
-          files: ./build/macos/Build/Products/Release/PhotographicViewer.mac.zip
+          files: |
+            ${{ env.MAC_OS}}/$${ env.APP_NAME }.mac.zip
+            ${{ env.MAC_OS}}/$${ env.APP_NAME }.dmg
+
