@@ -41,6 +41,6 @@
         with:
           files: |
             ${{ env.APP_NAME }}.mac.zip
-            ${{} env.APP_NAME }}.dmg
+            ${{ env.APP_NAME }}.dmg
         working-directory: ${{ env.MACOS_APP_RELEASE_PATH }}
 
