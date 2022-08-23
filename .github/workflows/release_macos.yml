@@ -1,4 +1,4 @@
-  name: 'Release macos zip'
+  name: 'Release macos archives'
   on: [release]
   jobs:
     release:
@@ -40,6 +40,7 @@
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ env.MAC_OS}}/${ env.APP_NAME }.mac.zip
-            ${{ env.MAC_OS}}/${ env.APP_NAME }.dmg
+            ${{ env.APP_NAME }}.mac.zip
+            ${{} env.APP_NAME }}.dmg
+        working-directory: ${{ env.MACOS_APP_RELEASE_PATH }}
 
