@@ -40,6 +40,6 @@
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ env.MAC_OS}}/$${ env.APP_NAME }.mac.zip
-            ${{ env.MAC_OS}}/$${ env.APP_NAME }.dmg
+            ${{ env.MAC_OS}}/${ env.APP_NAME }.mac.zip
+            ${{ env.MAC_OS}}/${ env.APP_NAME }.dmg
 
